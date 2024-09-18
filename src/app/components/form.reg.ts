@@ -9,7 +9,7 @@ type FormData = {
   label: string;
   type: 'text' | 'email' | 'password' | 'tel' | 'date' | 'select' | 'textarea';
   name: string;
-  options?: { value: string; label: string }[]; // options не обязательно
+  options?: { value: string; label: string }[];
 };
 
 @Component({
@@ -69,15 +69,15 @@ export class RegisterComponent {
   succes: string | null = '';
 
   fields: FormData[] = [
-    { id: 'email', label: 'Email', type: 'email', name: 'email' },
-    { id: 'password', label: 'Пароль', type: 'password', name: 'password' },
-    { id: 'confirm_password', label: 'Подтверждение пароля', type: 'password', name: 'confirm_password', },
-    { id: 'name', label: 'Имя', type: 'text', name: 'name' },
-    { id: 'surname', label: 'Фамилия', type: 'text', name: 'surname' },
-    { id: 'phone', label: 'Телефон', type: 'tel', name: 'phone' },
+    { id: 'email', label: '* Email', type: 'email', name: 'email' },
+    { id: 'password', label: '* Пароль', type: 'password', name: 'password' },
+    { id: 'confirm_password', label: '* Подтверждение пароля', type: 'password', name: 'confirm_password', },
+    { id: 'name', label: '* Имя', type: 'text', name: 'name' },
+    { id: 'surname', label: '* Фамилия', type: 'text', name: 'surname' },
+    { id: 'phone', label: '* Телефон', type: 'tel', name: 'phone' },
     { id: 'birthdate', label: 'Дата рождения', type: 'date', name: 'birthdate', },
     {
-      id: 'gender', label: 'Пол', type: 'select', name: 'gender', options:
+      id: 'gender', label: '* Пол', type: 'select', name: 'gender', options:
         [
           { value: '', label: 'Выберите пол' },
           { value: 'male', label: 'Мужской' },
@@ -122,7 +122,7 @@ export class RegisterComponent {
               this.router.navigate(['/login']);
             }, 1000);
           } else {
-            this.error = 'Логин/пароль неверный';
+            this.error = 'Уже существует данный аккаунт';
           }
         },
         (error) => {

@@ -25,8 +25,15 @@ export class AuthService {
     );
   }
   register(data: any): Observable<boolean> {
-    return this.storageService.setItem('userData', data).pipe(
-      map(() => true),
+    return this.storageService.getItem('userData').pipe(
+      map(existingData => {
+        if (existingData && existingData.email === data.email) {
+          return false;
+        } else {
+          this.storageService.setItem('userData', data).subscribe();
+          return true;
+        }
+      }),
     );
   }
 
