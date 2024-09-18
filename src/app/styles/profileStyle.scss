@@ -1,0 +1,16 @@
+@import './formStyle.scss';
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+}
+.profile__wrapper {
+    color: white;
+    @include wrapper;
+}
+
+.profile__wrapper h2 {
+    text-align: center;
+}

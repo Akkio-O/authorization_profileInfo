@@ -1,0 +1,77 @@
+// default
+@mixin wrapper {
+  min-width: 300px;
+  background-color: rgb(29, 91, 142);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+// text-center
+.error, .succes, .formWrapper h2 {
+  text-align: center;
+}
+
+// status
+.error {
+  color: #ff4040;
+}
+.succes {
+  color: #42ff42;
+  text-align: center;
+}
+
+// form
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.formWrapper h2 {
+  margin: 0;
+  color: white;
+}
+.formWrapper form {
+  color: white;
+  @include wrapper;
+}
+
+.formWrapper form button {
+  display: block;
+  margin: 10px auto;
+  width: 100%;
+}
+
+.formWrapper form button a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input, select, textarea {
+  width: calc(100% - 20px);
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
