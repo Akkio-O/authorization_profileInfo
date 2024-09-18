@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
     selector: 'app-profile-user',
@@ -21,7 +22,7 @@ import { Router } from '@angular/router';
     `,
 })
 export class ProfileUserComponent implements OnInit {
-    constructor(private router: Router) { }
+    constructor(private authService: AuthService, private router: Router) { }
     otherData: Array<{ key: string, value: any }> = [];
     fullName: string = '';
 
@@ -60,7 +61,10 @@ export class ProfileUserComponent implements OnInit {
             : mapping ? mapping + value : null;
     }
     logout() {
-        localStorage.removeItem('userData');
-        this.router.navigate(['/login']);
+        this.authService.logout().subscribe(() => {
+            this.router.navigate(['/login']);
+        }, error => {
+            console.error('Ошибка выхода:', error);
+        });
     }
 }

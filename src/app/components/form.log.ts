@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from './auth.service';
+
+type User = {
+  email: string;
+  password: string;
+};
 
 @Component({
   selector: 'form-log',
@@ -43,31 +49,30 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   error: string | null = '';
   succes: string | null = '';
-  user = {
+
+  user: User = {
     email: '',
     password: ''
   };
 
-  constructor(private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
-      const data = localStorage.getItem('userData');
-      if (data) {
-        const userData = JSON.parse(data);
-        if (userData.email === this.user.email && userData.password === this.user.password) {
-          console.log('Форма отправлена', this.user);
-          this.error = null;
-          this.succes = 'Вы успешно зарегистрированы';
-          setTimeout(() => {
-            this.router.navigate(['/user'])
-          }, 3000)
-        } else {
-          this.error = 'Логин/пароль неверные';
+      this.authService.login(this.user).subscribe(
+        (loginSuccessful) => {
+          if (loginSuccessful) {
+            this.error = null;
+            this.succes = 'Вы успешно авторизованы';
+            this.router.navigate(['/user']);
+          } else {
+            this.error = 'Логин/пароль неверные';
+          }
+        },
+        (error) => {
+          console.error('Ошибка авторизации:', error);
         }
-      } else {
-        console.error('Данные пользователя не найдены');
-      }
+      );
     }
   }
 }

@@ -2,6 +2,15 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './auth.service';
+
+type FormData = {
+  id: string;
+  label: string;
+  type: 'text' | 'email' | 'password' | 'tel' | 'date' | 'select' | 'textarea';
+  name: string;
+  options?: { value: string; label: string }[]; // options не обязательно
+};
 
 @Component({
   selector: 'form-reg',
@@ -59,7 +68,7 @@ export class RegisterComponent {
   error: string | null = '';
   succes: string | null = '';
 
-  fields = [
+  fields: FormData[] = [
     { id: 'email', label: 'Email', type: 'email', name: 'email' },
     { id: 'password', label: 'Пароль', type: 'password', name: 'password' },
     { id: 'confirm_password', label: 'Подтверждение пароля', type: 'password', name: 'confirm_password', },
@@ -79,7 +88,7 @@ export class RegisterComponent {
     { id: 'additional_info', label: 'Дополнительная информация', type: 'textarea', name: 'additional_info' },
   ];
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
   }
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -104,12 +113,23 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       console.log(this.registerForm.value);
       const { confirm_password, ...data } = this.registerForm.value;
-      localStorage.setItem("userData", JSON.stringify(data));
-      this.error = null;
-      this.succes = 'Вы успешно зарегистрированы';
-      setTimeout(() => {
-        this.router.navigate(['/login'])
-      }, 3000)
+      this.authService.register(data).subscribe(
+        (registrationSuccessful) => {
+          if (registrationSuccessful) {
+            this.error = null;
+            this.succes = 'Вы успешно зарегистрированы';
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 1000);
+          } else {
+            this.error = 'Логин/пароль неверный';
+          }
+        },
+        (error) => {
+          console.error('Ошибка регистрации:', error);
+          this.error = 'Ошибка регистрации';
+        }
+      );
     } else {
       console.log('Форма не валидна');
       this.error = 'Пожалуйста проверьте все поля';
