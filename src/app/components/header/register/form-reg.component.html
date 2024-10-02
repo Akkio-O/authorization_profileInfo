@@ -1,0 +1,44 @@
+<section class="formWrapper">
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+	<h2>Регистрация</h2>
+	<p *ngIf="error" class="error">{{error}}</p>
+	<p *ngIf="succes" class="succes">{{succes}}</p><br>
+	<div *ngFor="let field of fields">
+		<label [for]="field.id">{{ field.label }}:</label><br />
+		<input
+		*ngIf="field.type !== 'select' && field.type !== 'textarea'"
+		[type]="field.type"
+		[id]="field.id"
+		[formControlName]="field.name"
+		/>
+
+		<select
+		*ngIf="field.type === 'select'"
+		[id]="field.id"
+		[formControlName]="field.name"
+		>
+		<option *ngFor="let option of field.options" [value]="option.value">
+			{{ option.label }}
+		</option>
+		</select>
+
+		<textarea
+		*ngIf="field.type === 'textarea'"
+		[id]="field.id"
+		[formControlName]="field.name"
+		>
+		</textarea><br />
+
+		<div *ngIf="registerForm.get(field.name)?.invalid && registerForm.get(field.name)?.touched">
+		<small *ngIf="registerForm.get(field.name)?.errors?.['required']" class="error">* {{ field.label }} обязательно</small>
+		<small *ngIf="registerForm.get(field.name)?.errors?.['email']" class="error">* Неверный формат email</small>
+		<small *ngIf="registerForm.get(field.name)?.errors?.['minlength']" class="error">* Пароль должен быть не менее 6 символов</small>
+		<small *ngIf="registerForm.get(field.name)?.errors?.['pattern']" class="error">* Неверный формат телефона</small>
+		</div>
+		<small *ngIf="registerForm.hasError('notSame') && field.name === 'confirm_password' && registerForm.get('confirm_password')?.touched" class="error">* Пароли должны совпадать</small>
+		</div>
+
+	<button type="submit">Создать аккаунт</button>
+	<button routerLink="/login">Войти</button>
+	</form>
+</section>`

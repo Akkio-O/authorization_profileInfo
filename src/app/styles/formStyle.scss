@@ -1,6 +1,7 @@
 // default
 @mixin wrapper {
   min-width: 300px;
+  color: white;
   background-color: rgb(29, 91, 142);
   padding: 15px;
   border-radius: 5px;
@@ -28,10 +29,8 @@
 }
 .formWrapper h2 {
   margin: 0;
-  color: white;
 }
 .formWrapper form {
-  color: white;
   @include wrapper;
 }
 

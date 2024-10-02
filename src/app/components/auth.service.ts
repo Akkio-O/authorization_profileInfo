@@ -17,10 +17,7 @@ export class AuthService {
   login(user: { email: string, password: string }): Observable<boolean> {
     return this.storageService.getItem('userData').pipe(
       map(data => {
-        if (data && data.email === user.email && data.password === user.password) {
-          return true;
-        }
-        return false;
+        return data && data.email === user.email && data.password === user.password ? true : false;
       })
     );
   }

@@ -1,0 +1,10 @@
+<section class="profile">
+	<div class="profile__wrapper">
+		<h2>Профиль пользователя</h2>
+		<p>Полное имя: {{ fullName }}</p>
+		<div *ngFor="let entry of otherData">
+			<p>{{formatEntry(entry.key, entry.value)}}</p>
+		</div>
+		<button (click)="logout()">Выйти из приложения</button>
+	</div>
+</section>
